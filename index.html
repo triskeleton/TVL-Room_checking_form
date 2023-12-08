@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Room Check Form</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Your existing styles here */
+  </style>
+</head>
+
+<body>
+
+  <h1>Room Check Form</h1>
+  <img src="tvl.jpg" alt="Travelodge-SouthHolland">
+
+  <label for="roomSelector">Select Rooms:</label>
+  <select id="roomSelector" multiple>
+    <!-- Add room options dynamically using JavaScript -->
+  </select>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Room Number</th>
+          <!-- Add other table headers here -->
+          <th>Door</th>
+          <th>Floor</th>
+          <th>AC</th>
+          <th>TV</th>
+          <th>Lamps</th>
+          <th>Mirror</th>
+          <th>Bed</th>
+          <th>Phone</th>
+          <th>Sink</th>
+          <th>Faucet</th>
+          <th>Tub</th>
+          <th>Tap & Shower</th>
+          <th>Exhaust</th>
+          <th>Toilet</th>
+          <th>Towels</th>
+          <th>Comment</th>
+        </tr>
+      </thead>
+      <tbody id="roomTableBody">
+        <!-- Table rows will be added dynamically using JavaScript -->
+      </tbody>
+    </table>
+
+    <br>
+
+    <button onclick="printPage()">Print</button>
+  </div>
+
+  <script>
+    const roomSelector = document.getElementById('roomSelector');
+    const roomTableBody = document.getElementById('roomTableBody');
+
+    // Function to add room options to the dropdown
+    function populateRoomSelector() {
+      for (let i = 102; i <= 228; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.text = `Room ${i}`;
+        roomSelector.add(option);
+      }
+    }
+
+    // Function to display selected rooms
+    function displaySelectedRooms() {
+      for (const option of roomSelector.options) {
+        if (option.selected) {
+          const roomNumber = option.value;
+
+          // Check if the room is already in the table
+          const existingRoom = document.getElementById(`room${roomNumber}`);
+          if (!existingRoom) {
+            const row = document.createElement('tr');
+            row.id = `room${roomNumber}`;
+            row.innerHTML = `<td>Room ${roomNumber}</td>`;
+            for (let j = 0; j < 16; j++) {
+              row.innerHTML += `<td><input type="checkbox" name="room${roomNumber}_feature${j}"></td>`;
+            }
+            row.innerHTML += `<td><textarea></textarea></td>`;
+            roomTableBody.appendChild(row);
+          }
+        }
+      }
+    }
+
+    function printPage() {
+      window.print();
+    }
+
+    // Populate room options on page load
+    populateRoomSelector();
+
+    // Attach event listeners
+    roomSelector.addEventListener('change', displaySelectedRooms);
+  </script>
+
+</body>
+
+</html>
